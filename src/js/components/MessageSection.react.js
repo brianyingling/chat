@@ -5,13 +5,6 @@ var Messages = require('./Messages.react');
 var MessageInput= require('./MessageInput.react');
 var MessageStore = require('../stores/MessageStore');
 
-
-// var messages = [
-// 	'Hello World',
-// 	'This is great',
-// 	'React is awesome!'
-// ];
-
 var getMessages = function() {
 	return MessageStore.getMessages();
 }

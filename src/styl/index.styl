@@ -4,7 +4,7 @@ section
 	
 	&.message-section
 		position relative
-		min-height 200px
+		min-height 500px
 		padding 5px
 		
 		.message-input
@@ -13,5 +13,7 @@ section
 			width 100%
 		
 		.message
-			&:nth-child(2)
-				background yellow
+			&:nth-child(even)
+				background #ececec
+			.user
+				font-weight bold
