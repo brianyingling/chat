@@ -16,8 +16,15 @@ var ChatActions = {
 			actionType: ChatConstants.CLICK_THREAD,
 			threadId: threadId
 		}); 
-	}
+	},
 
+	loadThreads: function(threads) {
+		console.log('loading threads...:', threads);
+		AppDispatcher.handleViewAction({
+			actionType: ChatConstants.LOAD_THREADS,
+			threads: threads
+		});
+	}
 };
 
 module.exports = ChatActions;

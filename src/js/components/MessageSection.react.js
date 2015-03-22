@@ -15,16 +15,13 @@ var MessageSection = React.createClass({
 	getInitialState: function() {
 		return {messages: getMessages()};
 	},
-
 	componentWillMount: function() {
 		MessageStore.addChangeListener(this._onChange);
 		ThreadStore.addChangeListener(this._onChange);
 	},
-
 	_onChange: function() {
 		this.setState({messages: getMessages()});
 	},
-
 	render: function() {
 		return (
 			<section className="message-section">
