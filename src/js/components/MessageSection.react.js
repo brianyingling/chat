@@ -4,6 +4,7 @@ var React = require('react');
 var Messages = require('./Messages.react');
 var MessageInput= require('./MessageInput.react');
 var MessageStore = require('../stores/MessageStore');
+var ThreadStore = require('../stores/ThreadStore');
 
 var getMessages = function() {
 	return MessageStore.getMessages();
@@ -17,10 +18,11 @@ var MessageSection = React.createClass({
 
 	componentWillMount: function() {
 		MessageStore.addChangeListener(this._onChange);
+		ThreadStore.addChangeListener(this._onChange);
 	},
 
 	_onChange: function() {
-		this.setState(getMessages());
+		this.setState({messages: getMessages()});
 	},
 
 	render: function() {

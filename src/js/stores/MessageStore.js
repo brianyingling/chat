@@ -1,13 +1,21 @@
+var _ = require('underscore');
 var AppDispatcher = require('../dispatchers/AppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
 var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
+var ThreadStore = require('../stores/ThreadStore');
 
 var _messages = [];
 
 function _addMessage(message) {
 	_messages.push(message);
+}
+
+// adds the currently chosen thread id to the message
+function _addThreadId(message) {
+	message.threadId = ThreadStore.getCurrentThreadId();
+	return message;
 }
 
 var MessageStore = assign({}, EventEmitter.prototype, {
@@ -22,18 +30,31 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 	getMessages: function() {
-		return _messages;
+		console.log('getting messages...');
+		return _.filter(_messages, function(message) {
+			return message.threadId === ThreadStore.getCurrentThreadId();
+		});
 	},
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		var action = payload.action;
 		
 		switch(action.actionType) {
+			
 			case ChatConstants.SEND_MESSAGE:
-				_addMessage(payload.action.message);
+				var message = _addThreadId(payload.action.message);
+				_addMessage(message);
+				MessageStore.getMessages();
 				MessageStore.emitChange();
 				break;
+			
+			case ChatConstants.CLICK_THREAD:
+				MessageStore.getMessages();
+				MessageStore.emitChange();
+				break;
+			
 			default:
-				// do nothing
+				return true;
+
 		};
 		return true;
 	})

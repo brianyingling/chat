@@ -8,6 +8,7 @@
     "object-assign": "^2.0.0",
     "react": "^0.13.1",
     "reactify": "^1.1.0",
-    "superagent": "^1.1.0"
+    "superagent": "^1.1.0",
+    "underscore": "^1.8.2"
   }
 }

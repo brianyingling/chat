@@ -8,12 +8,10 @@ var MessageInput = React.createClass({
 		var text = this.refs.text.getDOMNode().value.trim();
 		var user = this.refs.user.getDOMNode().value.trim();
 		var message = {user: user, message: text};
-		// this is where we would call call an action
+		
 		ChatActions.sendMessage(message);
-		// clear value
 		this.refs.text.getDOMNode().value = '';
-		text = '';
-
+		
 	},
 	render: function() {
 		return (

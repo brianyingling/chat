@@ -7,6 +7,10 @@ section
 		min-height 500px
 		padding 5px
 		
+		.messages
+			overflow-y scroll
+			height 380px
+		
 		.message-input
 			position absolute
 			bottom 0
@@ -17,3 +21,8 @@ section
 				background #ececec
 			.user
 				font-weight bold
+	
+	&.thread-section
+		.thread
+			&:hover
+				cursor pointer

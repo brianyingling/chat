@@ -2,6 +2,7 @@
 var React = require('react');
 var Message = require('./Message.react');
 
+
 var Messages = React.createClass({
 	
 	render: function() {
