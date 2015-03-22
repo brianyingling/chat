@@ -24,6 +24,12 @@ var ChatActions = {
 			actionType: ChatConstants.LOAD_THREADS,
 			threads: threads
 		});
+	},
+
+	createThread: function() {
+		AppDispatcher.handleViewAction({
+			actionType: ChatConstants.CREATE_THREAD
+		});
 	}
 };
 

@@ -7,12 +7,13 @@ var MessageStore = require('../stores/MessageStore');
 
 var CHANGE_EVENT = 'change';
 
-var _threads = [
-	{id: 1, name: 'Thread 1', active: true},
-	{id: 2, name: 'Thread 2'},
-	{id: 3, name: 'Thread 3'}
-];
-// var _threads = [];
+// var _threads = [
+// 	{id: 1, name: 'Thread 1', active: true},
+// 	{id: 2, name: 'Thread 2'},
+// 	{id: 3, name: 'Thread 3'}
+// ];
+var _threads = {};
+var _idCount = 0;
 
 var _currentThreadId;
 
@@ -22,27 +23,31 @@ function _addThreadId(message) {
 	return message;
 }
 
+function _createThread() {
+	var id = _setCurrentThreadId(++_idCount);
+	var newThread = {id: id, name: 'New Thread', active: true};
+	_threads[id] = newThread;
+}
+
 function _setCurrentThreadId(id) {
-	id = id || _.threads[0].id || 1;
 	_currentThreadId = id;
+	return _currentThreadId;
 };
 
 function _toggleActivation(id) {
-	_threads = _.map(_threads, function(thread) {
-		thread.active = (thread.id === id);
-		return thread;
-	});
+	for (var key in _threads) {
+		_threads[key].active = (_threads[key].id == id);
+	}
 };
 
 // takes the last statement of a thread and makes it the thread's name
 function _processThreads(threads) {
 	var threadIds = _.compact(_.map(threads, function(thread) {return thread.threadId}));
-	_threads = _.map(threadIds, function(threadId) {
+	_.map(threadIds, function(threadId) {
 		var msgs = _.where(threads, {threadId: threadId});
 		var lastMsg = _.last(msgs);
-		return {
-			name: lastMsg.message
-		};
+		_threads[lastMsg.threadId] = {id: lastMsg.threadId, name: lastMsg.message};
+		return _threads[lastMsg.threadId];
 	});
 }
 
@@ -92,6 +97,13 @@ var ThreadStore = assign({}, EventEmitter.prototype, {
 			case ChatConstants.SEND_MESSAGE:
 				_addThreadId(payload.action.message);
 				_processThreads([payload.action.message]);
+				_toggleActivation(ThreadStore.getCurrentThreadId());
+				ThreadStore.emitChange();
+				break;
+
+			case ChatConstants.CREATE_THREAD:
+				_createThread();
+				_toggleActivation(ThreadStore.getCurrentThreadId());
 				ThreadStore.emitChange();
 				break;
 			

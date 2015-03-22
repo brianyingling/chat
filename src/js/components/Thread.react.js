@@ -21,6 +21,7 @@ var Thread = React.createClass({
 			'thread':true,
 			'active':this.props.data.active
 		});
+		console.log('data:',this.props.data);
 		return (
 			<div className={classes} onClick={this.handleClick}>
 				{this.props.data.name}

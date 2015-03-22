@@ -50,7 +50,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 				MessageStore.getMessages();
 				MessageStore.emitChange();
 				break;
-			
+
 			default:
 				return true;
 		};

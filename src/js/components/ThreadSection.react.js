@@ -4,6 +4,7 @@ var React = require('react');
 var Threads = require('./Threads.react');
 var ChatActions = require('../actions/ChatActions');
 var ThreadStore = require('../stores/ThreadStore');
+var ThreadInput = require('./ThreadInput.react');
 
 function getThreads() {
 	return ThreadStore.getThreads();
@@ -24,10 +25,10 @@ var ThreadSection = React.createClass({
 	},
 
 	render: function() {
-		console.log('threads:',this.state.threads);
 		return (
 			<section className="thread-section">
 				<Threads data={this.state.threads}/>
+				<ThreadInput />
 			</section>
 		);
 	}
